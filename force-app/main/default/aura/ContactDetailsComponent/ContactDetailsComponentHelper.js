@@ -8,10 +8,23 @@
         // Set the callback function for the action
         action.setCallback(this, function(response) {
             var state = response.getState();
-            if (state == "SUCCESS") {
+            if (state === "SUCCESS") {
                 // Set the contacts attribute with the returned data
-                component.set("v.contacts", response.getReturnValue());
-                console.log("Ran Suiiiiii")
+                var contacts = response.getReturnValue().map(function(contact) {
+                    return{
+                        Id: contact.Id,
+                        FirstName: contact.FirstName,
+                        LastName: contact.LastName,
+                        Email: contact.Email,
+                        Phone: contact.Phone,
+                        BillingCity: contact.Account.BillingCity,
+                        BillingSate: contact.Account.BillingSate
+                    };
+                    
+                });
+                component.set("v.contacts", contacts);
+                component.set("v.isLoading", false);
+                debugger;
                 
             } else {
                 console.log("Failed with following state: " + state);

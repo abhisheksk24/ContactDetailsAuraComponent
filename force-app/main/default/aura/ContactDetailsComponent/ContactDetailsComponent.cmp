@@ -18,5 +18,7 @@ force:lightningQuickAction" access="global" controller="AccountContactsControlle
         </aura:if>
         <!-- Display datatable with contacts -->
         <lightning:datatable data="{!v.contacts}" columns="{!v.columns}" keyField="Id" hideCheckboxColumn="true" />
+        <!-- Display Custom data table -->
+        <c:CustomDataTable data="{!v.contacts}" columns="{!v.columns}" />
     </lightning:card>
 </aura:component>

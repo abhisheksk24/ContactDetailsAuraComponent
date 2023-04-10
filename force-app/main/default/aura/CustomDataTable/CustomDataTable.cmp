@@ -1,0 +1,21 @@
+<aura:component >
+    <aura:attribute name="data" type="Object[]" />
+    <aura:attribute name="columns" type="List" />
+    <aura:iteration items="{!v.data}" var="row">
+        <div class="slds-box slds-box_x-small slds-m-bottom_small">
+            <aura:iteration items="{!v.columns}" var="col">
+            <aura:if isTrue="{!col.fieldName == 'FirstName'}">
+                    <div class="slds-p-horizontal_small">
+                        
+                    </div>
+                </aura:if>
+                <aura:if isTrue="{!col.fieldName == 'LastName'}">
+                    <div class="slds-p-horizontal_small">
+                    <b>{!col.label}:</b> {!row.LastName}
+                    </div>
+            </aura:if>
+            <!-- Add other fields similarly -->
+            </aura:iteration>
+        </div>
+    </aura:iteration>
+</aura:component>
