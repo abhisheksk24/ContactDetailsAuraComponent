@@ -7,6 +7,7 @@ force:lightningQuickAction" access="global" controller="AccountContactsControlle
     <aura:attribute name ="recordId" type="String" />
     <aura:attribute name ="columns" type="List" />
     <aura:attribute name="isLoading" type="Boolean" default="true" />
+    <aura:attribute name="isLoaded" type="Boolean" default="false" />
     
     <!-- Method for component initialiazation-->
     <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
@@ -17,8 +18,8 @@ force:lightningQuickAction" access="global" controller="AccountContactsControlle
             <lightning:spinner alternativeText="Loading contacts" />
         </aura:if>
         <!-- Display datatable with contacts -->
-        <lightning:datatable data="{!v.contacts}" columns="{!v.columns}" keyField="Id" hideCheckboxColumn="true" />
-        <!-- Display Custom data table -->
-        <c:CustomDataTable data="{!v.contacts}" columns="{!v.columns}" />
+        <aura:if isTrue="{!v.isLoaded}">
+            <lightning:datatable data="{!v.contacts}" columns="{!v.columns}" keyField="Id" hideCheckboxColumn="true" />
+        </aura:if>
     </lightning:card>
 </aura:component>
