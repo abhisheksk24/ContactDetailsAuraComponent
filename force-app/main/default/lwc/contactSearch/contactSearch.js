@@ -1,15 +1,17 @@
-import { LightningElement, wire} from 'lwc';
+import { LightningElement, track, wire} from 'lwc';
 import { NavigationMixin } from 'lightning/navigation';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import { deleteRecord } from 'lightning/uiRecordApi';
 import { refreshApex } from '@salesforce/apex';
 import searchContacts from '@salesforce/apex/WrapperClass.searchContacts';
+
 //defining actions for each row of the table
 const actions = [
-          { label: 'View', name: 'view' },
-          { label: 'Edit', name: 'edit' },
-          { label: 'Delete', name: 'delete' }
+          { label: 'View', name: 'view', iconName: 'utility:preview'},
+          { label: 'Edit', name: 'edit', iconName: 'utility:edit' },
+          { label: 'Delete', name: 'delete', iconName: 'utility:delete' }
         ];
+
 //defining columns for the table
 const COLUMNS = [
           { label: 'Name', fieldName: 'Name', type: 'text'},
@@ -17,23 +19,32 @@ const COLUMNS = [
           { label: 'Mobile', fieldName: 'MobilePhone', type: 'phone' },
           { label: 'Billing City', fieldName: 'BillingCity', type: 'text' },
           { label: 'Billing State', fieldName: 'BillingState', type: 'text' },
-          { label: '', type: 'action', typeAttributes: { rowActions: actions }, }
+          { label: '', type: 'action', typeAttributes: { rowActions: actions, menuAlignment: 'right', iconName: 'utility:down', iconAlternativeText: 'Action' }, }
         ];
+
 export default class ContactTable extends NavigationMixin(LightningElement) {
   columns = COLUMNS; // Initializing columns with defined values
   contactList;    // Initializing contactList variable
   searchKey;     // Initializing searchKey variable
-  // this function will get value from text input
+  showTable = false;
+
+  connectedCallback() {
+    this.showTable = false;
+  }
+  
+  @track isEdited = false;
 
   handleInputChange(event) {
     let searchKeys = event.target.value;
     if (searchKeys === '') {
         this.contactList = [];
-    } else {
+        this.showTable = false;
+    }     
+    else {
+      this.showTable =true;
         this.searchKey = searchKeys;
         return refreshApex(this.contactList);
     }
-          // setting the value of the search key variable with the input value
   }
 
   // Retrieving contactList by calling wire with the Apex method and searchKey parameter
@@ -65,20 +76,26 @@ export default class ContactTable extends NavigationMixin(LightningElement) {
           }
         });
         break;
+
       case 'edit':
-        this[NavigationMixin.Navigate]({
-          type: 'standard__recordPage',
-          attributes: {
-            recordId: row.Id,
-            objectApiName: 'Contact',
-            actionName: 'edit'
-          }
-        });
-        return refreshApex(this.contactList); // Refreshing contactList after editing the record
-     case 'delete':
+        this.editContact(row.Id);
+        break;
+      case 'delete':
         this.delContact();
         return refreshApex(this.contactList); // Record will be deleted
     }
+  }
+
+  editContact(recordId) {
+    this[NavigationMixin.Navigate]({
+      type: 'standard__recordPage',
+      attributes: {
+        recordId: recordId,
+        objectApiName: 'Contact',
+        actionName: 'edit'   
+      }
+    });
+    return refreshApex(this.contactList);
   }
 
   //This function created for deleting the record
@@ -86,8 +103,6 @@ export default class ContactTable extends NavigationMixin(LightningElement) {
     //Invoke the deleteRecord to delete a record
     deleteRecord(this.recordId)
       .then(() => {
-        // We are firing a toast message
-
         this.dispatchEvent(
           new ShowToastEvent({
             title: 'Success',
@@ -107,9 +122,5 @@ export default class ContactTable extends NavigationMixin(LightningElement) {
           })
         );
       });
-  }
-
-  hideDataTable(){
-    const dataTable = this.template.query
   }
 }

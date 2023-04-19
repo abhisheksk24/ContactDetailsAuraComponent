@@ -24,20 +24,21 @@
                   variant="Neutral"
                   name="Create Contact"
                   onclick={handleContactCreate}
-                  style="margin-left:10px;">
+                  style="margin-left:2px;">
           </lightning-button>
   
         </lightning-layout-item>
         <!-- Creates a Lightning layout item with padding, which contains a datatable to display contact records -->
         <lightning-layout-item padding="around-small">
+          <template if:true={showTable}>
           <lightning-datatable  key-field="Id"
                       data={contactList.data}
                       columns={columns}
                       hide-checkbox-column="true"
                       onrowaction={callRowAction}>
           </lightning-datatable>
+        </template>
         </lightning-layout-item>
-    
       </lightning-layout>
     </lightning-card>
   </template>
