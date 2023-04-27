@@ -16,23 +16,25 @@ const actions = [
 const COLUMNS = [
           { label: 'Name', fieldName: 'Name', type: 'text'},
           { label: 'Email', fieldName: 'Email', type: 'email' },
-          { label: 'Mobile', fieldName: 'MobilePhone', type: 'phone' },
-          { label: 'Billing City', fieldName: 'BillingCity', type: 'text' },
+          { label: 'Mobile', fieldName: 'MobilePhone', type: 'phone'},
+          { label: 'Billing City', fieldName: 'BillingCity', type: 'text'},
           { label: 'Billing State', fieldName: 'BillingState', type: 'text' },
-          { label: '', type: 'action', typeAttributes: { rowActions: actions, menuAlignment: 'right', iconName: 'utility:down', iconAlternativeText: 'Action' }, }
+          { label: '+', type: 'action', initialWidth: 120, typeAttributes: 
+            { rowActions: actions, menuAlignment: 'right', iconName: 'utility:down', iconAlternativeText: 'Action' },
+          }
         ];
 
 export default class ContactTable extends NavigationMixin(LightningElement) {
-  columns = COLUMNS; // Initializing columns with defined values
-  contactList;    // Initializing contactList variable
-  searchKey;     // Initializing searchKey variable
+  columns = COLUMNS; 
+  contactList;    
+  searchKey;     
   showTable = false;
 
   connectedCallback() {
     this.showTable = false;
   }
   
-  @track isEdited = false;
+  //@track isEdited = false;
 
   handleInputChange(event) {
     let searchKeys = event.target.value;
@@ -49,6 +51,7 @@ export default class ContactTable extends NavigationMixin(LightningElement) {
 
   // Retrieving contactList by calling wire with the Apex method and searchKey parameter
   @wire(searchContacts, {textKey : '$searchKey'}) contactList;
+  
   //This function will create a new contact
   handleContactCreate() {
     this[NavigationMixin.Navigate]({

@@ -1,12 +1,9 @@
-<!-- sldsValidatorIgnore -->
-<!-- sldsValidatorIgnore -->
-<!-- sldsValidatorIgnore -->
 <template>
-    <!-- Creates a Lightning card with the title "Contact Search Records" and the icon "standard:contact" -->
+    <!--  the title "Contact Search Records" and the icon "standard:contact" -->
     <lightning-card title="Search for Contact Records" icon-name="standard:contact">
-      <!-- Creates a Lightning layout with multiple rows and items aligned vertically to the bottom -->
+      <!-- multiple rows and items aligned vertically to the bottom -->
       <lightning-layout multiple-rows="true" vertical-align="end">
-        <!-- Creates a Lightning layout item with a size of 4 and padding, which contains a search input field -->
+        <!-- a size of 4 and padding, which contains a search input field -->
        
         <lightning-layout-item size="10" padding="around-small">     
           <lightning-input  
@@ -17,7 +14,7 @@
           </lightning-input>
         </lightning-layout-item>
        
-        <!-- Creates a Lightning layout item with a size of 2 and padding, which contains a button to add a new contact -->
+        <!-- item with a size of 2 and padding, which contains a button to add a new contact -->
         <lightning-layout-item size="2" padding="around-small">
           <lightning-button
                   label="Add New Contact"
@@ -25,9 +22,9 @@
                   name="Create Contact"
                   onclick={handleContactCreate}
                   style="margin-left:2px;">
-          </lightning-button>
-  
+          </lightning-button> 
         </lightning-layout-item>
+
         <!-- Creates a Lightning layout item with padding, which contains a datatable to display contact records -->
         <lightning-layout-item padding="around-small">
           <template if:true={showTable}>
@@ -39,6 +36,7 @@
           </lightning-datatable>
         </template>
         </lightning-layout-item>
+        
       </lightning-layout>
     </lightning-card>
   </template>
