@@ -56,4 +56,3 @@ public with sharing class WrapperClass {
       public String BillingState { get; set; }
     }
   }
-  

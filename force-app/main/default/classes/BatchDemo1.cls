@@ -1,9 +1,11 @@
 global class BatchDemo1 implements Database.Batchable<SObject>{
 
     private Integer magicNum = 0;
+    
+    
 
     global Database.QueryLocator StaticResourceCalloutMock(Database.BatchableContext bc){
-        return Database.getQueryLocator('Select Id, Name From Account');
+        return Database.getQueryLocator([Select Id, Name From Account]);
     }
 
     global void execute(Database.BatchableContext bc, List<Account> scope){
@@ -16,5 +18,10 @@ global class BatchDemo1 implements Database.Batchable<SObject>{
     global void finish(Database.BatchableContext bc) {
         System.debug('In the finish method');
         System.debug('magicNum' + magicNum);
+    }
+
+    executeit(){
+        BatchDemo1 bd = new BatchDemo1();
+        Database.executeBatch(bd);
     }
 } 
