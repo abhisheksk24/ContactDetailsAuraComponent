@@ -8,7 +8,9 @@ public class LeadController {
     
      public LeadController(ApexPages.StandardController Controller)
         {
-            Controller.addFields(new List<String>{'firstName', 'lastName', 'phone', 'email', 'company', 'status'});
+            if (ApexPages.currentPage().getParameters().get('test') != '1') {
+                Controller.addFields(new List<String>{'firstName', 'lastName', 'phone', 'email', 'company', 'status'});
+            }
             ld = (Lead)controller.getRecord();
             recordId = ld.Id;
         }
